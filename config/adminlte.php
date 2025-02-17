@@ -337,6 +337,11 @@ return [
             'text' => 'Simulaciones',
             'url' => '/playList',
             'icon' => 'fas fa-solid fa-play',
+        ],
+        [
+            'text' => 'Examen',
+            'url' => '/admin/examen/1',
+            'icon' => 'fas fa-solid fa-play',
         ]
     ],
 

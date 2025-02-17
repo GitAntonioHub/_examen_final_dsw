@@ -7,6 +7,7 @@ use App\Http\Controllers\ScenarioController;
 use App\Http\Controllers\InstructionController;
 use App\Http\Controllers\TransitionController;
 use App\Http\Middleware\CheckRole;
+use App\Http\Controllers\ExamenController;
 
 
 //Ruta de vista pública HOME
@@ -83,3 +84,22 @@ Route::prefix('admin')->group(function () {
 Route::get('/scenario/{id_scenario}/simulation/desa_trainer/{id_desa}', [ScenarioController::class, 'play'])->name('scenarios.play');
 
 Route::get('/play/{scenario_id}/{desa_trainer_id}', [PlayController::class, 'show']);
+
+
+Route::middleware(['auth', CheckRole::class . ':Administrador'])->prefix('admin')->group(function () {
+    Route::get('/dashboard', function () {
+        return view('admin.dashboard');
+    })->name('admin.dashboard');
+    // Ruta DESA
+    Route::resource('desa-trainers', DESATrainerController::class);
+
+    // Rutas para Scenarios
+    Route::resource('scenarios', ScenarioController::class);
+
+    Route::get('/examen/{scenario_id}', [ScenarioController::class, 'examenScenario'])->name('scenario.examen');
+
+});
+
+Route::middleware(['auth', CheckRole::class . ':Administrador'])->prefix('admin')->group(function () {
+    Route::get('/examen/{scenario_id}', [ExamenController::class, 'show']);
+});

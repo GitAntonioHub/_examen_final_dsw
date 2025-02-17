@@ -31,7 +31,11 @@
     </div>
 </div>
 <div class="d-flex justify-content-center mb-3">
+    <a href="{{ route('scenario.edit', $escenario->id) }}" class="btn btn-primary mr-1">
+        Modificar escenario
+    </a>
     {{-- Botón para modificar el escenario --}}
+    
     <a href="{{ route('scenario.edit', $escenario->id) }}" class="btn btn-primary mr-1">
         Modificar escenario
     </a>

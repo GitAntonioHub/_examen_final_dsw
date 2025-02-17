@@ -37,19 +37,21 @@ class ScenarioController extends Controller
                 'title' => 'required|max:255',
                 'descripcion-escenario' => 'string|nullable|max:2000',
                 'desa-trainers-escenario' => 'required|exists:desa_trainers,id',
+                'is_active' => 'required|boolean',
+                'is_simulable' => 'required|boolean',
             ], [
                 'title.required' => 'Campo título obligatorio',
                 'title.max' => 'No más de 255 caracteres',
                 'descripcion-escenario' => 'No más de 2000 caracteres',
                 'desa-trainers-escenario.required' => 'DESA Trainer obligatorio',
-                'desa-trainers-escenario.exists' => 'DESA Trainer no válido'
+                'desa-trainers-escenario.exists' => 'DESA Trainer no válido',
+                'is_active.required' => 'Campo activo obligatorio',
+                'is_active.boolean' => 'El campo activo debe ser verdadero o falso',
+                'is_simulable.required' => 'Campo simulable obligatorio',
+                'is_simulable.boolean' => 'El campo simulable debe ser verdadero o falso'
             ]);
     
-            Scenario::create([
-                'desa_trainer_id' => $nuevo_escenario['desa-trainers-escenario'],
-                'title' => $nuevo_escenario['title'],
-                'description' => $nuevo_escenario['descripcion-escenario']
-            ]);
+            Scenario::create($request->all());
     
             // Devolver JSON
             return response() -> json([
@@ -101,20 +103,22 @@ class ScenarioController extends Controller
                 'title' => 'required|max:255',
                 'descripcion-escenario' => 'string|nullable|max:2000',
                 'desa-trainers-escenario' => 'required|exists:desa_trainers,id',
+                'is_active' => 'required|boolean',
+                'is_simulable' => 'required|boolean',
             ], [
                 'title.required' => 'Campo requerido',
                 'title.max' => 'No más de 255 caracteres',
                 'descripcion-escenario' => 'No más de 2000 caracteres',
                 'desa-trainers-escenario.required' => 'Campo requerido',
                 'desa-trainers-escenario.exists' => 'DESA TRAINER no válido',
+                'is_active.required' => 'Campo activo obligatorio',
+                'is_active.boolean' => 'El campo activo debe ser verdadero o falso',
+                'is_simulable.required' => 'Campo simulable obligatorio',
+                'is_simulable.boolean' => 'El campo simulable debe ser verdadero o falso'
             ]);
 
             // Guardar datos modificados
-            $escenario_modificar->update([
-                'desa_trainer_id' => $nuevos_datos_escenario['desa-trainers-escenario'],
-                'title' => $nuevos_datos_escenario['title'],
-                'description' => $nuevos_datos_escenario['descripcion-escenario'],
-            ]);
+            $escenario_modificar->update($request->all());
 
             return response() -> json([
                 'escenario_modificar' => $escenario_modificar,
@@ -161,7 +165,7 @@ class ScenarioController extends Controller
 
     public function playlist()
     {
-        $scenarios = Scenario::all();
+        $scenarios = Scenario::where('is_simulable', true)->get();
 
         return view('playList', compact('scenarios'));
     }
@@ -174,5 +178,15 @@ class ScenarioController extends Controller
         $transitions = Transition::whereIn('from_instruction_id', $instructions->pluck('id'))->orWhereIn('to_instruction_id', $instructions->pluck('id'))->get();
         
         return view('livewire.scenario-simulation', compact('scenario', 'instructions','transitions', 'desaTrainers'));
+    }
+
+    public function examenScenario($scenario_id, $desa_trainer_id)
+    {
+        $scenario = Scenario::findOrFail($scenario_id);
+        $desaTrainers = DesaTrainer::findOrFail($desa_trainer_id);
+        $instructions = Instruction::where('scenario_id', $scenario_id)->get(); 
+        $transitions = Transition::whereIn('from_instruction_id', $instructions->pluck('id'))->orWhereIn('to_instruction_id', $instructions->pluck('id'))->get();
+        
+        return view('livewire.examen-component', compact('scenario', 'instructions','transitions', 'desaTrainers'));
     }
 }

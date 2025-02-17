@@ -23,6 +23,12 @@
       @method('PUT')
       <label for="title" class="form-label">Título</label>
       <input type="text" name="title" id="title" placeholder="Nombre del escenario" class="form-control mb-2" maxlength="255" value="{{ $escenario->title }}" required>
+      <input class="form-check-input" type="checkbox" id="is_simulable" wire:model.live="is_simulable">
+    <label class="form-check-label small" for="is_simulable">
+    <i class="fas fa-lightbulb me-1 mr-1"></i>Es Simulable
+    </label>
+    <p>
+      
       <label for="descripcion-escenario" class="form-label">Descripción</label>
       <textarea name="descripcion-escenario" id="descripcion-escenario" class="form-control mb-2" placeholder="Describe el escenario" maxlength="2000" style="resize: none;">{{ $escenario->description }}</textarea>
       <label for="desa-trainers-escenario">DESA Trainer</label>

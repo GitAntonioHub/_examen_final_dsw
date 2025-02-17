@@ -17,6 +17,10 @@
     <input type="text" name="title" id="title" placeholder="Nombre del escenario" class="form-control mb-2"
         maxlength="255" required>
     <div class="invalid-feedback"></div>
+    <input class="form-check-input" type="checkbox" id="is_simulable" wire:model.live="is_simulable">
+    <label class="form-check-label small" for="is_simulable">
+    <i class="fas fa-lightbulb me-1 mr-1"></i>Es Simulable
+    </label>
     <!-- Descripción -->
     <label for="descripcion-escenario" class="form-label">Descripción</label>
     <textarea name="descripcion-escenario" id="descripcion-escenario" class="form-control mb-2"

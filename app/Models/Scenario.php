@@ -17,6 +17,8 @@ class Scenario extends Model
         'desa_trainer_id',
         'title',
         'description',
+        'is_active',
+        'is_simulable',
     ];
     public function desaTrainer()
     {

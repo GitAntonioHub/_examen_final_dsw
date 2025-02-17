@@ -29,14 +29,14 @@ class ScenarioSimulation extends Component
     // Método que se ejecuta al montar el componente
     // Se ejecuta al montar el componente, se pasa el escenario
     public function mount($scenario)
-{
-    $this->scenario = $scenario;
-    $this->desaTrainers = $scenario->desaTrainer;
-    $this->instructions = $scenario->instructions;
-    $this->transitions = $scenario->transitions;
-    $this->isPlaying = false;
-    $this->currentInstructionId = null;
-}
+    {
+        $this->scenario = $scenario;
+        $this->desaTrainers = $scenario->desaTrainer;
+        $this->instructions = $scenario->instructions;
+        $this->transitions = $scenario->transitions;
+        $this->isPlaying = false;
+        $this->currentInstructionId = null;
+    }
     
     // Maneja un error, mostrando el mensaje y deteniendo la simulación
     protected function handleError($message) {
